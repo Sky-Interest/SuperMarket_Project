@@ -27,11 +27,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeNum(String employee_num) {
-        return null;
+        return dao.getEmployeeNum(employee_num);
     }
 
     @Override
     public List<Employee> getEmployeesAll() {
-        return null;
+        return dao.getEmployeesAll();
     }
 }

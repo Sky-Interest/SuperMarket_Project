@@ -7,8 +7,8 @@ import java.util.List;
 public interface GoodsDao {
     void addGoods(Goods goods);
     void updateGoods(Goods goods);
-    void removeGoods(String goods_num);
-    void getGoods(String goods_num);
+    void removeGoods(int goods_num);
+    Goods getGoods(int goods_num);
 
     List<Goods> getGoodsAll();
 }
