@@ -1,6 +1,18 @@
 package com.supermarket.entity;
 
 public class Employee {
+
+    private String employee_num;
+    private String employee_uname;
+    private String employee_psw;
+    private String employee_sex;
+    private String employee_phone;
+    private int employee_role;
+    private int employee_remark;
+
+    public Employee() {
+    }
+
     public String getEmployee_num() {
         return employee_num;
     }
@@ -67,8 +79,7 @@ public class Employee {
         this.employee_remark = employee_remark;
     }
 
-    public Employee() {
-    }
+
 
     @Override
     public String toString() {
@@ -83,12 +94,6 @@ public class Employee {
                 '}';
     }
 
-    private String employee_num;
-    private String employee_uname;
-    private String employee_psw;
-    private String employee_sex;
-    private String employee_phone;
-    private int employee_role;
-    private int employee_remark;
+
 
 }
