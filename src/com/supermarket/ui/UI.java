@@ -1,7 +1,8 @@
 package com.supermarket.ui;
 
-import com.supermarket.dao.impl.EmployeeDaoImpl;
+import com.supermarket.entity.Employee;
 import com.supermarket.service.EmployeeService;
+import com.supermarket.service.impl.EmployeeServiceImpl;
 
 import java.util.Scanner;
 
@@ -9,6 +10,8 @@ public class UI {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+//        System.out.println(employeesAll);
 
 //        mainLogin();
     }
@@ -23,7 +26,19 @@ public class UI {
             int i = sc.nextInt();
             switch (i){
                 case 1:
-                    employeeLogin();
+                    Employee employee_info = employeeLogin();
+                    String role = null;
+                    if(employee_info.getRole() == 1){
+                        role = "管理员";
+                        adminFunc(employee_info,role);
+                    }else if(employee_info.getRole() ==2){
+                        role = "收银员";
+                        cashierFunc(employee_info,role);
+                    }else if(employee_info.getRole() ==3){
+                        role = "采购员";
+                        buyerFunc(employee_info,role);
+                    }
+
                     break;
                 case 2:
                     vipLogin();
@@ -38,18 +53,54 @@ public class UI {
         }
     }
     //第二层登录UI
-    public static void employeeLogin(){
+    public static Employee employeeLogin(){
+//    @Test
+//    public void employeeLogin(){
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        Scanner sc = new Scanner(System.in);
+        boolean flag = true;
+        Employee employee_info = null;
 
-        while (true){
+        while (flag){
             System.out.println("==========当前页面:员工登录==========");
 //            System.out.println("==========管理员登录请输入:1=========");
 //            System.out.println("==========收银员登录请输入:2=========");
 //            System.out.println("==========采购员登录请输入:3=========");
 //            System.out.println("==========退出此页面请输入:0=========");
-            System.out.println("请输入您的账号:");
-            String ename = sc.next();
-            System.out.println("请输入您的密码:");
-            String epsw = sc.next();
+//            System.out.println("请输入您的账号:");
+//            String enumber = sc.next();
+//            System.out.println("请输入您的密码:");
+//            String epsw = sc.next();
+//            Employee employeeNamePsw = employeeService.getEmployeeNumNamePsw(enumber,epsw);
+//            employeeNamePsw.getNumber();
+
+            //登录功能
+            while (flag) {
+                try {
+
+                    if(!flag) {
+
+                        break;
+                    }
+                    while (flag) {
+
+                        System.out.println("请输入您的账号:");
+                        String enumber = sc.next();
+                        System.out.println("请输入您的密码:");
+                        String epsw = sc.next();
+                        employee_info = employeeService.getEmployeeNumNamePsw(enumber, epsw);
+                        System.out.println(employee_info.toString());
+                        if(employee_info !=null){
+                            flag = false;
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("账号或密码错误，请重新输入");
+                }
+            }
+
+//            employeeService.getEmployeesAll();
 //            int i = sc.nextInt();
 //            switch (i) {
 //                case 1:
@@ -75,7 +126,10 @@ public class UI {
 //                default:
 //                    System.out.println("您的输入有误，请重新输入！");
 //            }
+
+            //需要添加跳出循环标志
         }
+        return employee_info;
     }
     public static void vipLogin(){
         //1.判断登录的账号密码
@@ -103,7 +157,7 @@ public class UI {
 
     }
     //第三层登录UI
-    public static void adminFunc(){
+    public static void adminFunc(Employee employee_info,String role){
         //1.判断登录账户
         //2.功能:收银员账户增删改查
         //3.功能:采购员账户增删改查
@@ -112,26 +166,176 @@ public class UI {
         //6.会员管理
         //7.查询所有人信息
         //8上下班打卡
-        System.out.println("admin");
+        while (true) {
+            System.out.println("==========欢迎您！" + employee_info.getUsername() + "(" + role + ")" + "==========");
+            System.out.println("1.收银员管理");
+            System.out.println("2.采购员管理");
+            System.out.println("3.员工出勤管理");
+            System.out.println("4.查询超市营业额");
+            System.out.println("5.会员管理");
+            System.out.println("6.查询所有人信息");
+            System.out.println("7.上班打卡");
+            System.out.println("8.下班打卡");
+            System.out.println("0.退出系统");
+            System.out.println("请选择功能:");
+            int i = sc.nextInt();
+            switch (i){
+                case 1:
+                    adminFunc_cashier(employee_info);
+                case 2:
+                    adminFunc_buyer(employee_info);
+                case 3:
+                    while (true){
+                        System.out.println("==========当前页面:收银员管理==========");
+
+                    }
+
+                case 4:
+                    while (true){
+                        System.out.println("==========当前页面:收银员管理==========");
+
+                    }
+
+                case 5:
+                    adminFunc_vip();
+
+                case 6:
+                    while (true){
+                        System.out.println("==========当前页面:收银员管理==========");
+
+                    }
+
+                case 7:
+                    while (true){
+                        System.out.println("==========当前页面:收银员管理==========");
+
+                    }
+
+                case 8:
+                    while (true){
+                        System.out.println("==========当前页面:收银员管理==========");
+
+                    }
+
+                case 0:
+                    break;
+                default:
+                    System.out.println("您的输入有误,请重新输入!");
+                    break;
+            }
+        }
+
+
     }
-    public static void cashierFunc(){
+    public static void cashierFunc(Employee employee_info, String role){
         //1.判断账户
         //1.收银结算
         //2.会员积分查询
         //3.开通会员:增加会员信息
         //4.上下班打卡
-        System.out.println("cashier");
+//        System.out.println(employee_info);
+        System.out.println("==========欢迎您！"+ employee_info.getUsername()+"("+role+")"+"==========");
+
+
+
     }
-    public static void buyerFunc(){
+    public static void buyerFunc(Employee employee_info, String role){
         //1.判断账户
         //1.进行商品补货:获取低于某值的商品信息,并进行修改
         //2.查询进货信息
         //3.上下班打卡
-        System.out.println("buyer");
+//        System.out.println(employee_info);
+        System.out.println("==========欢迎您！"+ employee_info.getUsername()+"("+role+")"+"==========");
+
+
     }
     public static void vipFunc(){
         //会员功能：查询积分
         System.out.println("vipfunc");
+    }
+
+    public static void adminFunc_cashier(Employee employee_info){
+        while (true) {
+            System.out.println("==========当前页面:收银员管理==========");
+            System.out.println("==========欢迎您！" + employee_info.getUsername() + "(" + ")" + "==========");
+
+            System.out.println("1.增加收银员");
+            System.out.println("2.删除收银员");
+            System.out.println("3.修改收银员");
+            System.out.println("4.查询收银员");
+            System.out.println("0.退出此页面");
+            System.out.println("请输入选项:");
+            int i1 = sc.nextInt();
+            switch (i1) {
+                case 1:
+
+                case 2:
+
+                case 3:
+
+                case 4:
+
+                case 0:
+                        break;
+                default:
+                    System.out.println("您的输入有误,请重新输入!");
+                    break;
+            }
+        }
+    }
+
+    public static void adminFunc_buyer(Employee employee_info){
+        while (true) {
+            System.out.println("==========当前页面:采购员管理==========");
+            System.out.println("1.增加采购员");
+            System.out.println("2.删除采购员");
+            System.out.println("3.修改采购员");
+            System.out.println("4.查询采购员");
+            System.out.println("0.退出此页面");
+            System.out.println("请输入选项:");
+            int i1 = sc.nextInt();
+            switch (i1) {
+                case 1:
+
+                case 2:
+
+                case 3:
+
+                case 4:
+
+                case 0:
+                    break;
+                default:
+                    System.out.println("您的输入有误,请重新输入!");
+            }
+        }
+    }
+
+    public static void adminFunc_vip(){
+        while (true) {
+            System.out.println("==========当前页面:会员管理==========");
+            System.out.println("1.增加会员");
+            System.out.println("2.删除会员");
+            System.out.println("3.修改会员");
+            System.out.println("4.查询会员");
+            System.out.println("0.退出此页面");
+            System.out.println("请输入选项:");
+            int i1 = sc.nextInt();
+            switch (i1) {
+                case 1:
+
+                case 2:
+
+                case 3:
+
+                case 4:
+
+                case 0:
+                    break;
+                default:
+                    System.out.println("您的输入有误,请重新输入!");
+            }
+        }
     }
 
 

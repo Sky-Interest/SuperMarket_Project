@@ -15,4 +15,5 @@ public interface EmployeeService {
 
     List<Employee> getEmployeesAll();
 
+    Employee getEmployeeNumNamePsw(String employee_num, String employee_password);
 }

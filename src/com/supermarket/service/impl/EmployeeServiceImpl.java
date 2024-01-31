@@ -34,4 +34,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getEmployeesAll() {
         return dao.getEmployeesAll();
     }
+    @Override
+    public Employee getEmployeeNumNamePsw(String employee_num, String employee_password){
+        return dao.getEmployeeNumNamePsw(employee_num,employee_password);
+    }
 }

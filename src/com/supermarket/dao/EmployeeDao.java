@@ -14,6 +14,8 @@ public interface EmployeeDao {
 
     Employee getEmployeeNum(String employee_num);
 
+    Employee getEmployeeNumNamePsw(String employee_num, String employee_password);
+
     List<Employee> getEmployeesAll();
 
 }
