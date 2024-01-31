@@ -8,7 +8,7 @@ public interface EmployeeDao {
 
     void addEmployee(Employee employee);
 
-    void updateEmployee(Employee employee);
+    void updateEmployee(String employee_num,Employee employee);
 
     void removeEmployee(String employee_num);
 
