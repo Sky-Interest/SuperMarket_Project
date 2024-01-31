@@ -14,7 +14,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         String sql = "INSERT INTO employee(number,username,password,sex,phone,role)values(?,?,?,?,?,?)";
 
-        JDBCUtil.update(sql, employee.getEmployee_num(), employee.getEmployee_uname(),employee.getEmployee_psw(),employee.getEmployee_sex(),employee.getEmployee_phone(),employee.getEmployee_role(),employee.getEmployee_remark());
+        JDBCUtil.update(sql, employee.getNumber(), employee.getUsername(),employee.getPassword(),employee.getSex(),employee.getPhone(),employee.getRole(),employee.getRemark());
 
     }
 
@@ -24,7 +24,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         String sql = "update employee set username=?,password=?,sex=?,phone=?,role=? where number=?";
 
-        JDBCUtil.update(sql,employee.getEmployee_uname(),employee.getEmployee_psw(),employee.getEmployee_sex(),employee.getEmployee_phone(),employee.getEmployee_role(),employee.getEmployee_remark(),employee.getEmployee_num());
+        JDBCUtil.update(sql,employee.getUsername(),employee.getPassword(),employee.getSex(),employee.getPhone(),employee.getRole());
 
     }
 

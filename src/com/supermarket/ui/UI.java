@@ -1,12 +1,16 @@
 package com.supermarket.ui;
 
+import com.supermarket.dao.impl.EmployeeDaoImpl;
+import com.supermarket.service.EmployeeService;
+
 import java.util.Scanner;
 
 public class UI {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        mainLogin();
+
+//        mainLogin();
     }
     //第一层登录UI
     public static void mainLogin(){
@@ -38,36 +42,39 @@ public class UI {
 
         while (true){
             System.out.println("==========当前页面:员工登录==========");
-            System.out.println("==========管理员登录请输入:1=========");
-            System.out.println("==========收银员登录请输入:2=========");
-            System.out.println("==========采购员登录请输入:3=========");
-            System.out.println("==========退出此页面请输入:0=========");
-            System.out.println("请输入您的选项:");
-            int i = sc.nextInt();
-            switch (i) {
-                case 1:
-                    //管理员登录
-                    System.out.println("跳转中");
-                    adminFunc();
-                    break;
-                case 2:
-                    //收银员登录
-                    System.out.println("跳转中");
-                    cashierFunc();
-                    break;
-                case 3:
-                    //采购员登录
-                    System.out.println("跳转中");
-                    buyerFunc();
-                    break;
-                case 0:
-                    //退出登录
-                    System.out.println("亲爱的客户,再见,欢迎您再次光临！");
-
-                    return;
-                default:
-                    System.out.println("您的输入有误，请重新输入！");
-            }
+//            System.out.println("==========管理员登录请输入:1=========");
+//            System.out.println("==========收银员登录请输入:2=========");
+//            System.out.println("==========采购员登录请输入:3=========");
+//            System.out.println("==========退出此页面请输入:0=========");
+            System.out.println("请输入您的账号:");
+            String ename = sc.next();
+            System.out.println("请输入您的密码:");
+            String epsw = sc.next();
+//            int i = sc.nextInt();
+//            switch (i) {
+//                case 1:
+//                    //管理员登录
+//                    System.out.println("跳转中");
+//                    adminFunc();
+//                    break;
+//                case 2:
+//                    //收银员登录
+//                    System.out.println("跳转中");
+//                    cashierFunc();
+//                    break;
+//                case 3:
+//                    //采购员登录
+//                    System.out.println("跳转中");
+//                    buyerFunc();
+//                    break;
+//                case 0:
+//                    //退出登录
+//                    System.out.println("亲爱的客户,再见,欢迎您再次光临！");
+//
+//                    return;
+//                default:
+//                    System.out.println("您的输入有误，请重新输入！");
+//            }
         }
     }
     public static void vipLogin(){

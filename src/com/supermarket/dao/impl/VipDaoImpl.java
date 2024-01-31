@@ -14,7 +14,7 @@ public class VipDaoImpl implements VipDao {
     public void addVip(Vip vip) {
         String sql = "INSERT INTO vip(v_number,v_name,v_score,v_phone,v_date)values(?,?,?,?,?)";
 
-        JDBCUtil.update(sql, vip.getVip_num(),vip.getVip_name(),vip.getVip_score(),vip.getVip_phone(),vip.getVip_date());
+        JDBCUtil.update(sql, vip.getV_number(), vip.getV_name(), vip.getV_score(), vip.getV_phone(), vip.getV_date());
 
     }
 
@@ -22,7 +22,7 @@ public class VipDaoImpl implements VipDao {
     public void updateVip(Vip vip) {
         String sql = "update vip set v_number=?,v_name=?,v_score=?,v_phone=?,v_date=? where v_number=?";
 
-        JDBCUtil.update(sql,vip.getVip_num(),vip.getVip_name(),vip.getVip_score(),vip.getVip_phone(), vip.getVip_date());
+        JDBCUtil.update(sql, vip.getV_number(), vip.getV_name(), vip.getV_score(), vip.getV_phone(), vip.getV_date());
 
 
     }

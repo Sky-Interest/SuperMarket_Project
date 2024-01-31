@@ -3,71 +3,73 @@ package com.supermarket.entity;
 import java.util.Date;
 
 public class Vip {
-    private String vip_num;
-    private String vip_name;
-    private int vip_score;
-    private String vip_phone;
-    private Date vip_date;
-
-    public Vip() {
-    }
+    private String v_number;
+    private String v_name;
+    private int v_score;
+    private String v_phone;
+    private Date v_date;
 
     @Override
     public String toString() {
         return "Vip{" +
-                "vip_num='" + vip_num + '\'' +
-                ", vip_name='" + vip_name + '\'' +
-                ", vip_score='" + vip_score + '\'' +
-                ", vip_phone='" + vip_phone + '\'' +
-                ", vip_date=" + vip_date +
+                "v_number='" + v_number + '\'' +
+                ", v_name='" + v_name + '\'' +
+                ", v_score=" + v_score +
+                ", v_phone='" + v_phone + '\'' +
+                ", v_date=" + v_date +
                 '}';
     }
 
-    public Vip(String vip_num, String vip_name, int vip_score, String vip_phone, Date vip_date) {
-        this.vip_num = vip_num;
-        this.vip_name = vip_name;
-        this.vip_score = vip_score;
-        this.vip_phone = vip_phone;
-        this.vip_date = vip_date;
+    public String getV_number() {
+        return v_number;
     }
 
-    public String getVip_num() {
-        return vip_num;
+    public void setV_number(String v_number) {
+        this.v_number = v_number;
     }
 
-    public void setVip_num(String vip_num) {
-        this.vip_num = vip_num;
+    public String getV_name() {
+        return v_name;
     }
 
-    public String getVip_name() {
-        return vip_name;
+    public void setV_name(String v_name) {
+        this.v_name = v_name;
     }
 
-    public void setVip_name(String vip_name) {
-        this.vip_name = vip_name;
+    public int getV_score() {
+        return v_score;
     }
 
-    public int getVip_score() {
-        return vip_score;
+    public void setV_score(int v_score) {
+        this.v_score = v_score;
     }
 
-    public void setVip_score(int vip_score) {
-        this.vip_score = vip_score;
+    public String getV_phone() {
+        return v_phone;
     }
 
-    public String getVip_phone() {
-        return vip_phone;
+    public void setV_phone(String v_phone) {
+        this.v_phone = v_phone;
     }
 
-    public void setVip_phone(String vip_phone) {
-        this.vip_phone = vip_phone;
+    public Date getV_date() {
+        return v_date;
     }
 
-    public Date getVip_date() {
-        return vip_date;
+    public void setV_date(Date v_date) {
+        this.v_date = v_date;
     }
 
-    public void setVip_date(Date vip_date) {
-        this.vip_date = vip_date;
+    public Vip(String v_number, String v_name, int v_score, String v_phone, Date v_date) {
+        this.v_number = v_number;
+        this.v_name = v_name;
+        this.v_score = v_score;
+        this.v_phone = v_phone;
+        this.v_date = v_date;
     }
+
+    public Vip() {
+    }
+
+
 }

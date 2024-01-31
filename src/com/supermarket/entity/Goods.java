@@ -1,71 +1,73 @@
 package com.supermarket.entity;
 
 public class Goods {
-    private String goods_num;
-    private String goods_name;
-    private double goods_price;
-    private double goods_vip_price;
-    private int goods_inventory;//库存
-
-    public Goods() {
-    }
+    private String c_number;
+    private String c_name;
+    private double c_price;
+    private double vip_price;
+    private int inventory;//库存
 
     @Override
     public String toString() {
         return "Goods{" +
-                "goods_num='" + goods_num + '\'' +
-                ", goods_name='" + goods_name + '\'' +
-                ", goods_price=" + goods_price +
-                ", goods_vip_price=" + goods_vip_price +
-                ", goods_inventory=" + goods_inventory +
+                "c_number='" + c_number + '\'' +
+                ", c_name='" + c_name + '\'' +
+                ", c_price=" + c_price +
+                ", vip_price=" + vip_price +
+                ", inventory=" + inventory +
                 '}';
     }
 
-    public Goods(String goods_num, String goods_name, double goods_price, double goods_vip_price, int goods_inventory) {
-        this.goods_num = goods_num;
-        this.goods_name = goods_name;
-        this.goods_price = goods_price;
-        this.goods_vip_price = goods_vip_price;
-        this.goods_inventory = goods_inventory;
+    public String getC_number() {
+        return c_number;
     }
 
-    public String getGoods_num() {
-        return goods_num;
+    public void setC_number(String c_number) {
+        this.c_number = c_number;
     }
 
-    public void setGoods_num(String goods_num) {
-        this.goods_num = goods_num;
+    public String getC_name() {
+        return c_name;
     }
 
-    public String getGoods_name() {
-        return goods_name;
+    public void setC_name(String c_name) {
+        this.c_name = c_name;
     }
 
-    public void setGoods_name(String goods_name) {
-        this.goods_name = goods_name;
+    public double getC_price() {
+        return c_price;
     }
 
-    public double getGoods_price() {
-        return goods_price;
+    public void setC_price(double c_price) {
+        this.c_price = c_price;
     }
 
-    public void setGoods_price(double goods_price) {
-        this.goods_price = goods_price;
+    public double getVip_price() {
+        return vip_price;
     }
 
-    public double getGoods_vip_price() {
-        return goods_vip_price;
+    public void setVip_price(double vip_price) {
+        this.vip_price = vip_price;
     }
 
-    public void setGoods_vip_price(double goods_vip_price) {
-        this.goods_vip_price = goods_vip_price;
+    public int getInventory() {
+        return inventory;
     }
 
-    public int getGoods_inventory() {
-        return goods_inventory;
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
     }
 
-    public void setGoods_inventory(int goods_inventory) {
-        this.goods_inventory = goods_inventory;
+    public Goods(String c_number, String c_name, double c_price, double vip_price, int inventory) {
+        this.c_number = c_number;
+        this.c_name = c_name;
+        this.c_price = c_price;
+        this.vip_price = vip_price;
+        this.inventory = inventory;
     }
+
+    public Goods() {
+    }
+
+
 }

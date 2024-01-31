@@ -4,6 +4,7 @@ import com.supermarket.dao.GoodsDao;
 import com.supermarket.entity.Goods;
 import com.supermarket.entity.Vip;
 import com.supermarket.util.JDBCUtil;
+import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class GoodsDaoImpl implements GoodsDao {
     public void addGoods(Goods goods) {
         String sql = "INSERT INTO goods(c_number,c_name,c_price,vip_price,inventory)values(?,?,?,?,?)";
 
-        JDBCUtil.update(sql,goods.getGoods_num(), goods.getGoods_name(), goods.getGoods_price(), goods.getGoods_vip_price(), goods.getGoods_inventory());
+        JDBCUtil.update(sql,goods.getC_number(),goods.getC_name(),goods.getC_price(),goods.getVip_price(),goods.getInventory());
 
     }
 
@@ -22,7 +23,7 @@ public class GoodsDaoImpl implements GoodsDao {
     public void updateGoods(Goods goods) {
         String sql = "update goods set c_number=?,c_name=?,c_price=?,vip_price=?,inventory=? where c_number=?";
 
-        JDBCUtil.update(sql,goods.getGoods_num(), goods.getGoods_name(), goods.getGoods_price(), goods.getGoods_vip_price(), goods.getGoods_inventory());
+        JDBCUtil.update(sql,goods.getC_number(),goods.getC_name(),goods.getC_price(),goods.getVip_price(),goods.getInventory());
 
     }
 
