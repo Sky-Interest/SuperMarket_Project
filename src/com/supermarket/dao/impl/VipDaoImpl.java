@@ -110,7 +110,7 @@ public class VipDaoImpl implements VipDao {
 //                System.out.println(employee);
 //            }
         }catch (Exception e) {
-            System.out.println("查询失败");
+            System.out.println("查询失败!");
         }
 //        return employees;
         return vips.stream()
