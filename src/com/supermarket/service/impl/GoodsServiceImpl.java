@@ -25,8 +25,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Goods getGoods(int goods_num) {
-        return dao.getGoods(goods_num);
+    public Goods checkInventoryFromGoodsNum(int goods_num ,int inventory) {
+        return dao.checkInventoryFromGoodsNum(goods_num,inventory);
     }
 
     @Override

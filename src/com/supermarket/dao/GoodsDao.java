@@ -8,7 +8,7 @@ public interface GoodsDao {
     void addGoods(Goods goods);
     void updateGoods(Goods goods);
     void removeGoods(int goods_num);
-    Goods getGoods(int goods_num);
+    Goods checkInventoryFromGoodsNum(int goods_num ,int inventory);
 
     List<Goods> getGoodsAll();
 }

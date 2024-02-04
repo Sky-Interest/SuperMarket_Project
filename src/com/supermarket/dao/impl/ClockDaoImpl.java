@@ -18,21 +18,18 @@ public class ClockDaoImpl implements ClockDao {
     EmployeeDaoImpl employee = new EmployeeDaoImpl();
     @Override
     public List<Clock> getSalaryAll() {
-//        String sql = "select * from clock_info";
-//        String sql = "select clock_info.clock_id,clock_info.employee_no,employee.username,clock_info.clock_in_time,clock_info.clock_off_time from clock_info " +
-//                "left join employee on clock_info.employee_no=employee.number";
         String sql = "select work_date,employee_no,username,clock_in_time,clock_off_time,diff_in_status,diff_off_time from check_info "+
                     "left join employee on check_info.employee_no=employee.number ";
-        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
 
         ResultSetHandler<List<Clock>> rh = new BeanListHandler<>(Clock.class);
-//        List<String> salary_info = new ArrayList<>();
 
         List<Clock> clock_info = null;
+        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
 
 
         try {
             clock_info = qr.query(sql,rh);
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,9 +57,7 @@ public class ClockDaoImpl implements ClockDao {
 
 
             }
-//            System.out.println(clock_info);
 
-//        return employees;
         return clock_info;
 
     }

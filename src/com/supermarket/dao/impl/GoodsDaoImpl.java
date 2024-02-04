@@ -1,14 +1,22 @@
 package com.supermarket.dao.impl;
 
 import com.supermarket.dao.GoodsDao;
+import com.supermarket.entity.Clock;
 import com.supermarket.entity.Goods;
 import com.supermarket.entity.Vip;
 import com.supermarket.util.JDBCUtil;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.junit.Test;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GoodsDaoImpl implements GoodsDao {
     @Override
@@ -33,49 +41,94 @@ public class GoodsDaoImpl implements GoodsDao {
 
         JDBCUtil.update(sql,goods_num);
     }
-
+    //或许是采购员功能
     @Override
-    public Goods getGoods(int goods_num) {
-        String sql = "select * from goods where c_number=?";
-        ResultSet rs = null;
-        Goods goods = null;
+    public Goods checkInventoryFromGoodsNum(int goods_num ,int inventory) {
+//        String sql = "select * from goods where c_number=?";
+//        ResultSet rs = null;
+
+//        try {
+//            rs = JDBCUtil.query(sql,goods_num);
+//            while (rs.next()){
+//                goods = new Goods(rs.getString("c_number"),//所需Int
+//                        rs.getString("c_name"),
+//                        rs.getDouble("c_price"),
+//                        rs.getDouble("vip_price"),
+//                        rs.getInt("inventory"));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }finally {
+//            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
+//        }
+//        return goods;
+        QueryRunner qr = new QueryRunner();
+        String sql = "SELECT c_number, c_name, c_price, vip_price, inventory FROM goods WHERE c_number = ?";
+//        Map<String, Object> row = qr.query(sql, new MapListHandler(), goodsNumber);
+        ResultSetHandler<Goods> rh = new BeanHandler<>(Goods.class);
+
+        Goods goods_info;
         try {
-            rs = JDBCUtil.query(sql,goods_num);
-            while (rs.next()){
-                goods = new Goods(rs.getString("c_number"),//所需Int
-                        rs.getString("c_name"),
-                        rs.getDouble("c_price"),
-                        rs.getDouble("vip_price"),
-                        rs.getInt("inventory"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
+            goods_info = qr.query(sql,rh);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return goods;
+
+        if (goods_info!= null && Integer.valueOf(goods_info.getInventory()) >= inventory) {
+//            return new Goods(row.get("c_number").toString(), row.get("c_name").toString(),
+//                    Double.valueOf(row.get("c_price").toString()), Double.valueOf(row.get("vip_price").toString()),
+//                    Integer.valueOf(row.get("inventory").toString()));
+            System.out.println("货号:"+ goods_info.getC_number()+"\t货名:"+ goods_info.getC_name()+"\t价格:"+ goods_info.getC_price()+"\tVip价格:"+ goods_info.getVip_price()+"\t库存:"+ goods_info.getInventory());
+        }
+        return goods_info;
     }
+
+
 
     @Override
     public List<Goods> getGoodsAll() {
-        String sql = "select * from goods";
-        ResultSet rs = null;
-        List<Goods> goodses= new ArrayList<>();
+//        String sql = "select * from goods";
+//        ResultSet rs = null;
+//        List<Goods> goodses= new ArrayList<>();
+//        try {
+//            rs = JDBCUtil.query(sql);
+//            while (rs.next()){
+//                Goods goods = new Goods(rs.getString("c_number"),//所需Int
+//                        rs.getString("c_name"),
+//                        rs.getDouble("c_price"),
+//                        rs.getDouble("vip_price"),
+//                        rs.getInt("inventory"));
+//                goodses.add(goods);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }finally {
+//            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
+//        }
+//        return goodses;
+        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+        System.out.println("商品列表:");
+        System.out.println("编号\t名称\t普通价格\tVIP价格\t库存");
+
+        String sql = "SELECT c_number, c_name, c_price, vip_price, inventory FROM goods";
+        ResultSetHandler<List<Goods>> rh = new BeanListHandler<>(Goods.class);
+
+        List<Goods> goods_info = null;
         try {
-            rs = JDBCUtil.query(sql);
-            while (rs.next()){
-                Goods goods = new Goods(rs.getString("c_number"),//所需Int
-                        rs.getString("c_name"),
-                        rs.getDouble("c_price"),
-                        rs.getDouble("vip_price"),
-                        rs.getInt("inventory"));
-                goodses.add(goods);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
+            goods_info = qr.query(sql,rh);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return goodses;
+
+        for (Goods goods : goods_info) {
+            System.out.println(goods.getC_number()+ "\t" +
+                    goods.getC_name() + "\t" +
+                    goods.getC_price() + "\t" +
+                    goods.getVip_price() + "\t" +
+                    goods.getInventory());
+        }
+        return goods_info;
     }
 }
