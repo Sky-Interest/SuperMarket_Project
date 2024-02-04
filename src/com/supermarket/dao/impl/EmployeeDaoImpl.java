@@ -1,6 +1,7 @@
 package com.supermarket.dao.impl;
 
 import com.supermarket.dao.EmployeeDao;
+import com.supermarket.entity.Clock;
 import com.supermarket.entity.Employee;
 import com.supermarket.util.JDBCUtil;
 import org.apache.commons.dbutils.QueryRunner;
@@ -8,29 +9,16 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeeDaoImpl implements EmployeeDao {
+
     @Override
     public void addEmployee(Employee employee) {
 
-//        String sql = "INSERT INTO employee(number,username,password,sex,phone,role)values(?,?,?,?,?,?)";
-//
-//        JDBCUtil.update(sql, employee.getNumber(), employee.getUsername(), employee.getPassword(), employee.getSex(), employee.getPhone(), employee.getRole(), employee.getRemark());
-//        String sql = "INSERT INTO employee(number,username,password,sex,phone,role)values(?,?,?,?,?,?)";
-//        ;
-//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
-//        ResultSetHandler<Employee> rsh = new BeanHandler<>(Employee.class);
-//        Employee employees = null;
-//        try {
-//            employees = qr.insert(sql,employees.getNumber(),employees.getUsername(),employees.getPassword(),employees.getSex(),employees.getPhone(), employee.getRole());
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        //添加
         String sql = "INSERT INTO employee(number,username,password,sex,phone,role,remark)values(?,?,?,?,?,?,?)";
         //创建runner对象
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
@@ -42,33 +30,45 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
 
     }
+//    @Override
+//    public void addVip(Vip vip) {
+//
+//        String sql = "INSERT INTO vip(v_number,v_name,v_phone,v_date)values(?,?,?,?)";
+//        //创建runner对象
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//        try {
+//            qr.update(sql,vip.getV_number(),vip.getV_name(),vip.getV_score(),vip.getV_phone(),vip.getV_date());
+//            System.out.println("插入成功...");
+//        } catch (SQLException e) {
+//            System.out.println("插入失败...");
+//        }
+//
+//    }
 
     @Override
     public void updateEmployee(String employee_num, Employee employee) {
-//        String sql = "update employee set username=?,password=?,sex=?,phone=?,role=? where number=?";
-//
-//        JDBCUtil.update(sql, employee.getUsername(), employee.getPassword(), employee.getSex(), employee.getPhone(), employee.getRole());
-//        String sql = "update employee set username=?,password=?,sex=?,phone=?,role=? where number=?";
-//        ;
-//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
-//        ResultSetHandler<Employee> rsh = new BeanHandler<>(Employee.class);
-//        Employee employees = null;
-//        try {
-//            employees = qr.query(sql,rsh,employees.getUsername(),employees.getPassword(),employees.getSex(),employees.getPhone(),2,employees.getNumber());
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        //修改
         String sql = "update employee set username=?,password=?,sex=?,phone=?,role=?,remark=? where number=?";
         //创建runner对象
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         try {
-            qr.update(sql,employee.getUsername(),employee.getPassword(),employee.getSex(),employee.getPhone(),2, employee.getRemark(),employee_num);
+            qr.update(sql,employee.getUsername(),employee.getPassword(),employee.getSex(),employee.getPhone(), employee.getRole(), employee.getRemark(),employee_num);
             System.out.println("修改成功...");
         } catch (SQLException e) {
             System.out.println("修改失败...");
         }
     }
+//@Override
+//    public void updateVip(String v_number, Vip vip) {
+//        String sql = "update vip set v_name=?,v_score=?,v_phone=?,v_date=? where v_number=?";
+//        //创建runner对象
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//        try {
+//            qr.update(sql,vip.getV_name(),vip.getV_score(),vip.getV_phone(), vip.getV_date(),v_number);
+//            System.out.println("修改成功...");
+//        } catch (SQLException e) {
+//            System.out.println("修改失败...");
+//        }
+//    }
 
     @Override
     public void removeEmployee(String employee_num) {
@@ -85,8 +85,42 @@ public class EmployeeDaoImpl implements EmployeeDao {
             System.out.println("删除失败...");
         }
     }
-
-    @Override
+//    @Override
+//    public void removeVip(String v_number) {
+////        String sql = "delete from employee where number=?";
+////
+////        JDBCUtil.update(sql, employee_num);
+//        String sql = "delete from vip where v_number=?";
+//        //创建runner对象
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//        try {
+//            qr.update(sql,v_number);
+//            System.out.println("删除成功...");
+//        } catch (SQLException e) {
+//            System.out.println("删除失败...");
+//        }
+//    }
+    //查询员工编号
+//    @Override
+//    public Vip getVipNum(String v_number) {
+//        //查询
+//        String sql ="SELECT*FROM vip WHERE v_number=?";
+//
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//        //封装
+//        ResultSetHandler<Vip> rsh = new BeanHandler<>(Vip.class);
+//        Vip vip = null;
+//        try {
+//            vip = qr.query(sql,rsh,v_number);
+//
+//        } catch (SQLException e) {
+//            System.out.println("查询失败！");
+//        }catch (NullPointerException e){
+//            System.out.println("不存在此会员!");
+//        }
+//        return vip;
+//    }
+@Override
     public Employee getEmployeeNum(String employee_num) {
         //查询
         String sql ="SELECT*FROM employee WHERE number=?";
@@ -107,29 +141,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     }
 
-//    public Employee getEmployeeNumNamePsw(String employee_num, String employee_password) {
-//        String sql = "select * from employee where number='?' and password='?'";
-//        ResultSet rs = null;
-//        Employee employee = null;
-//        try {
-//            rs = JDBCUtil.query(sql,employee_num,employee_password);
-//            while (rs.next()){
-//                employee = new Employee(rs.getString("number"),
-//                        rs.getString("username"),
-//                        rs.getString("password"),
-//                        rs.getString("sex"),
-//                        rs.getString("phone"),
-//                        rs.getInt("role"),
-//                        rs.getInt("remark"));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
-//        }
-//        return employee;
-//
-//    }
+
 
     //查询账号和密码
     @Override
@@ -145,43 +157,74 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
 
         return employees;
-    }//查询账号和密码
+    }
+    //查询所有人
     @Override
     public List<Employee> getEmployeesAll() {
-//        ResultSet rs = null;
-//        List<Employee> employees= new ArrayList<>();
-//        try {
-//            rs = JDBCUtil.query(sql);
-//            while (rs.next()){
-//                Employee employee = new Employee(rs.getString("number"),
-//                        rs.getString("username"),
-//                        rs.getString("password"),
-//                        rs.getString("sex"),
-//                        rs.getString("phone"),
-//                        rs.getInt("role"),
-//                        rs.getInt("remark"));
-//                employees.add(employee);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
-//        }
+
         String sql = "select * from employee";
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         ResultSetHandler<List<Employee>> rh = new BeanListHandler<>(Employee.class);
         List<Employee> employees = null;
         try {
             employees = qr.query(sql,rh);
-            for (Employee employee : employees) {
-                //循环形式输出
-                System.out.println(employee);
-            }
+//            for (Employee employee : employees) {
+//                //循环形式输出
+//                System.out.println(employee);
+//            }
         }catch (Exception e) {
             System.out.println("查询失败");
         }
-        return employees;
+//        return employees;
+        return employees.stream()
+                .peek(employee -> System.out.println(employee)) // 在遍历过程中打印员工信息
+                .collect(Collectors.toList()); // 收集并返回修改后的集合
     }
+//    @Override
+//    public List<Clock> getSalaryAll() {
+//        //后期需要联合上下班打卡状态
+//        String sql = "select * from clock_info";
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//
+//        ResultSetHandler<List<Clock>> rh = new BeanListHandler<>(Clock.class);
+////        List<String> salary_info = new ArrayList<>();
+//
+//        List<Clock> clock_info = null;
+//        try {
+//            clock_info = qr.query(sql,rh);
+////            for (Employee employee : employees) {
+////                //循环形式输出
+////                System.out.println(employee);
+////            }
+//        }catch (Exception e) {
+//            System.out.println("查询失败");
+//        }
+////        return employees;
+//        return clock_info;
+////                .stream()
+////                .peek(employee -> System.out.println(employee)) // 在遍历过程中打印员工信息
+////                .collect(Collectors.toList()); // 收集并返回修改后的集合
+//    }
 
-
+//    @Override
+//    public List<Vip> getVipAll() {
+//
+//        String sql = "select * from vip";
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//        ResultSetHandler<List<Vip>> rh = new BeanListHandler<>(Vip.class);
+//        List<Vip> vips = null;
+//        try {
+//            vips = qr.query(sql,rh);
+////            for (Employee employee : employees) {
+////                //循环形式输出
+////                System.out.println(employee);
+////            }
+//        }catch (Exception e) {
+//            System.out.println("查询失败");
+//        }
+////        return employees;
+//        return vips.stream()
+//                .peek(vip -> System.out.println(vip)) // 在遍历过程中打印员工信息
+//                .collect(Collectors.toList()); // 收集并返回修改后的集合
+//    }
 }

@@ -15,8 +15,8 @@ public class VipServiceImpl implements VipService {
     }
 
     @Override
-    public void updateVip(Vip vip) {
-        dao.updateVip(vip);
+    public void updateVip(String v_number, Vip vip) {
+        dao.updateVip(v_number,vip);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class VipServiceImpl implements VipService {
     }
 
     @Override
-    public Vip getVipNumber(String vip_num) {
-        return dao.getVipNumber(vip_num);
+    public Vip getVipNum(String v_number) {
+        return dao.getVipNum(v_number);
 
     }
 
