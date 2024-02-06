@@ -1,24 +1,16 @@
 package com.supermarket.ui;
 
-import com.supermarket.dao.impl.GoodsDaoImpl;
-import com.supermarket.entity.Clock;
-import com.supermarket.entity.Employee;
-import com.supermarket.entity.Vip;
-import com.supermarket.service.ClockService;
-import com.supermarket.service.EmployeeService;
-import com.supermarket.service.GoodsService;
-import com.supermarket.service.VipService;
-import com.supermarket.service.impl.ClockServiceImpl;
-import com.supermarket.service.impl.EmployeeServiceImpl;
-import com.supermarket.service.impl.GoodsServiceImpl;
-import com.supermarket.service.impl.VipServiceImpl;
+import com.supermarket.entity.*;
+import com.supermarket.service.*;
+import com.supermarket.service.impl.*;
 
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -29,9 +21,11 @@ public class UI {
     public static void main(String[] args) {
 
 //    adminFunc_cashier();
-        mainLogin();
+//        mainLogin();
 //        adminFunc_vip();
 //        adminFunc_clock();
+//        adminFunc_getsell();
+
 
     }
 
@@ -48,7 +42,7 @@ public class UI {
                 case 1:
                     Employee employee_info = employeeLogin();
                     String role = null;
-                    int role_num =0;
+                    int role_num = 0;
                     if (employee_info.getRole() == 1) {
                         role = "管理员";
                         role_num = 1;
@@ -168,7 +162,7 @@ public class UI {
                     if (vip_info != null) {
                         System.out.println("vip");
                         while (true) {
-                            System.out.println("==========您好!尊贵的会员:"+vip_info.getV_name()+"==========");
+                            System.out.println("==========您好!尊贵的会员:" + vip_info.getV_name() + "==========");
                             System.out.println("==========查询会员积分请输入:1=========");
                             System.out.println("==========退出系统请输入:0=============");
                             int i = sc.nextInt();
@@ -188,7 +182,7 @@ public class UI {
                             }
                         }
 //                        break;
-                    }else{
+                    } else {
                         System.out.println("会员信息获取失败,请重新获取!");
                         flag = false;
                         break;
@@ -218,11 +212,11 @@ public class UI {
 
         Boolean flag = true;
         while (flag) {
-            System.out.println("==========欢迎您!"+employee_info.getUsername()+"("+role+")"+"==========");
+            System.out.println("==========欢迎您!" + employee_info.getUsername() + "(" + role + ")" + "==========");
             System.out.println("1.收银员管理");//完成
             System.out.println("2.采购员管理");//完成
             System.out.println("3.员工出勤管理");//完成
-            System.out.println("4.查询超市营业额");
+            System.out.println("4.查询超市营业额");//完成
             System.out.println("5.会员管理");//完成
             System.out.println("6.查询所有人信息");//完成
             System.out.println("7.上班打卡");//完成
@@ -246,6 +240,7 @@ public class UI {
                     break;
 
                 case 4:
+                    adminFunc_getsell();
                     break;
 
                 case 5:
@@ -308,15 +303,15 @@ public class UI {
             System.out.println("0.退出系统");
             System.out.println("请选择功能:");
             int i = sc.nextInt();
-            switch (i){
+            switch (i) {
                 case 1:
-
+                    cashierFunc_sell(employee_info);
                     break;
                 case 2:
                     System.out.println("请输入您的账号:");
                     String v_number = sc.next();
                     Vip vip_info = cashier_vip.getVipNum(v_number);
-                    System.out.println("此会员的积分:"+vip_info.getV_score());
+                    System.out.println("此会员的积分:" + vip_info.getV_score());
                     break;
                 case 3:
                     //增加会员
@@ -380,7 +375,7 @@ public class UI {
             System.out.println("0.退出系统");
             System.out.println("请选择功能:");
             int i = sc.nextInt();
-            switch (i){
+            switch (i) {
                 case 1:
                     break;
                 case 2:
@@ -410,7 +405,7 @@ public class UI {
 
     public static void vipFunc(Vip vip_info) {
         //会员功能：查询积分
-        System.out.println("您的积分:"+ vip_info.getV_score());
+        System.out.println("您的积分:" + vip_info.getV_score());
     }
 
     public static void adminFunc_cashier() {
@@ -451,7 +446,7 @@ public class UI {
                 case 2:
                     //删除收银员
                     System.out.println("请输入需要删除的编号");
-                    String num1 =sc.next();
+                    String num1 = sc.next();
 //                    System.out.println("你确定要删除吗?输入是|否:");
 //                    String isDelete = sc.next();
 //                    if(isDelete.equals("是")){
@@ -477,7 +472,7 @@ public class UI {
                     cashier.setRemark(sc.nextInt());
                     System.out.println(cashier);
                     //向数据库发送数据
-                    admin_cashier.updateEmployee(num,cashier);
+                    admin_cashier.updateEmployee(num, cashier);
 //                    System.out.println(admin_cashier.getEmployeesAll());
                     break;
                 case 4:
@@ -485,11 +480,11 @@ public class UI {
                     System.out.println("请输入需要查询的收银员编号");
                     String num2 = sc.next();
                     Employee cashier_ser = admin_cashier.getEmployeeNum(num2);
-                    System.out.println("姓名:"+cashier_ser.getUsername() +
-                            "\n密码:"+ cashier_ser.getPassword()+
-                            "\n性别:"+ cashier_ser.getSex()+
-                            "\n手机:"+ cashier_ser.getPhone()+
-                            "\n状态:"+ cashier_ser.getRemark());
+                    System.out.println("姓名:" + cashier_ser.getUsername() +
+                            "\n密码:" + cashier_ser.getPassword() +
+                            "\n性别:" + cashier_ser.getSex() +
+                            "\n手机:" + cashier_ser.getPhone() +
+                            "\n状态:" + cashier_ser.getRemark());
                     break;
                 case 0:
                     flag = false;
@@ -536,13 +531,13 @@ public class UI {
                     admin_buyer.addEmployee(buyer);
 //                    System.out.println(admin_buyer.getEmployeesAll());
                     for (Employee employee : admin_buyer.getEmployeesAll()) {
-                        System.out.println("所有人数据:"+employee);
+                        System.out.println("所有人数据:" + employee);
                     }
                     break;
                 case 2:
                     //删除采购员
                     System.out.println("请输入需要删除的编号");
-                    String num1 =sc.next();
+                    String num1 = sc.next();
 //                    System.out.println("你确定要删除吗?输入是|否:");
 //                    String isDelete = sc.next();
 //                    if(isDelete.equals("是")){
@@ -551,7 +546,7 @@ public class UI {
                     admin_buyer.removeEmployee(num1);
 //                    System.out.println(admin_buyer.getEmployeesAll());
                     for (Employee employee : admin_buyer.getEmployeesAll()) {
-                        System.out.println("所有人数据:"+employee);
+                        System.out.println("所有人数据:" + employee);
                     }
                     break;
                 case 3:
@@ -571,10 +566,10 @@ public class UI {
                     buyer.setRemark(sc.nextInt());
                     System.out.println(buyer);
                     //向数据库发送数据
-                    admin_buyer.updateEmployee(num,buyer);
+                    admin_buyer.updateEmployee(num, buyer);
 //                    System.out.println(admin_buyer.getEmployeesAll());
                     for (Employee employee : admin_buyer.getEmployeesAll()) {
-                        System.out.println("所有人数据:"+employee);
+                        System.out.println("所有人数据:" + employee);
                     }
                     break;
                 case 4:
@@ -582,11 +577,11 @@ public class UI {
                     System.out.println("请输入需要查询的采购员编号");
                     String num2 = sc.next();
                     Employee buyer_ser = admin_buyer.getEmployeeNum(num2);
-                    System.out.println("姓名:"+buyer_ser.getUsername() +
-                            "\n密码:"+ buyer_ser.getPassword()+
-                            "\n性别:"+ buyer_ser.getSex()+
-                            "\n手机:"+ buyer_ser.getPhone()+
-                            "\n状态:"+ buyer_ser.getRemark());
+                    System.out.println("姓名:" + buyer_ser.getUsername() +
+                            "\n密码:" + buyer_ser.getPassword() +
+                            "\n性别:" + buyer_ser.getSex() +
+                            "\n手机:" + buyer_ser.getPhone() +
+                            "\n状态:" + buyer_ser.getRemark());
                     break;
                 case 0:
                     flag = false;
@@ -643,13 +638,13 @@ public class UI {
 //                    System.out.println(admin_buyer.getEmployeesAll());
                     for (Vip vip_info : admin_vip.getVipAll()) {
                         //可优化UI显示
-                        System.out.println("所有人数据:"+vip_info);
+                        System.out.println("所有人数据:" + vip_info);
                     }
                     break;
                 case 2:
                     //删除会员
                     System.out.println("请输入需要删除的会员编号");
-                    String num1 =sc.next();
+                    String num1 = sc.next();
 //                    System.out.println("你确定要删除吗?输入是|否:");
 //                    String isDelete = sc.next();
 //                    if(isDelete.equals("是")){
@@ -658,7 +653,7 @@ public class UI {
                     admin_vip.removeVip(num1);
 //                    System.out.println(admin_buyer.getEmployeesAll());
                     for (Vip vip_info : admin_vip.getVipAll()) {
-                        System.out.println("所有人数据:"+vip_info);
+                        System.out.println("所有人数据:" + vip_info);
                     }
                     break;
                 case 3:
@@ -681,7 +676,7 @@ public class UI {
                     admin_vip.updateVip(num, vip);
 //                    System.out.println(admin_buyer.getEmployeesAll());
                     for (Vip vip_info : admin_vip.getVipAll()) {
-                        System.out.println("所有人数据:"+vip_info);
+                        System.out.println("所有人数据:" + vip_info);
                     }
                     break;
                 case 4:
@@ -689,10 +684,10 @@ public class UI {
                     System.out.println("请输入需要查询的会员编号");
                     String num2 = sc.next();
                     Vip vip_ser = admin_vip.getVipNum(num2);
-                    System.out.println("姓名:"+vip_ser.getV_name() +
-                            "\n积分:"+ vip_ser.getV_score()+
-                            "\n手机:"+ vip_ser.getV_phone()+
-                            "\n注册日期:"+ vip_ser.getV_date());
+                    System.out.println("姓名:" + vip_ser.getV_name() +
+                            "\n积分:" + vip_ser.getV_score() +
+                            "\n手机:" + vip_ser.getV_phone() +
+                            "\n注册日期:" + vip_ser.getV_date());
                     break;
                 case 0:
                     flag = false;
@@ -704,7 +699,7 @@ public class UI {
         }
     }
 
-    public static void adminFunc_clock(){
+    public static void adminFunc_clock() {
 //                        System.out.println("==========当前页面:收银员管理==========");
         EmployeeService employeeService = new EmployeeServiceImpl();
         ClockService clockService = new ClockServiceImpl();
@@ -735,4 +730,292 @@ public class UI {
         }
     }
 
+    public static void adminFunc_getsell() {
+        SellService sellService = new SellServiceImpl();
+        SellGoodsService sellGoodsService = new SellGoodsServiceImpl();
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        GoodsService goodsService = new GoodsServiceImpl();
+        boolean flag = true;
+        while (flag) {
+            System.out.println("==========当前页面:查询超市营业额==========");
+            System.out.println("1.查看超市所有销售信息");
+            System.out.println("2.查看超市指定日期的销售信息");
+            System.out.println("3.查看超市指定日期范围的营业额");
+            System.out.println("0.退出此页面");
+            System.out.println("请输入选项:");
+            int i1 = sc.nextInt();
+            switch (i1) {
+                case 1:
+                    List<Sell> sells = sellService.getAllSell();
+                    System.out.println("货名\t\t\t\t销售量\t\t\t\t销售时间\t\t\t\t收银员\t\t\t\tVIP编号");
+                    for (Sell sell_info1 : sells) {
+                        //通过获取到的员工号获取员工名
+                        Employee employee = employeeService.getEmployeeNum(sell_info1.getS_e_number());
+//                        System.out.println(employee);
+                        //通过获取到的货号获取货名
+//                        System.out.println(sell_info1.getS_c_number());
+                        Goods goods = goodsService.getGoodsName(sell_info1.getS_c_number());
+                        //LocalDateTime 去T
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        String time = sell_info1.getS_time().format(dtf);
+
+                        System.out.println(goods.getC_name() + "\t\t\t"
+                                + sell_info1.getS_quantity() + "\t\t\t"
+                                + time + "\t\t\t"
+                                + employee.getUsername() + "\t\t\t"
+                                + sell_info1.getS_vip_number());
+                    }
+
+                    break;
+                case 2:
+                    boolean flag1 = false;
+                    Date date = null;
+                    String input = null;
+                    while (!flag1) {
+                        System.out.print("请输入日期（格式为yyyy-MM-dd）：");
+                        input = sc.next();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        try {
+                            date = sdf.parse(input);
+                            flag1 = true;
+                        } catch (Exception e) {
+                            System.out.println("输入的日期格式不正确，请重新输入。");
+//                            e.printStackTrace();
+                        }
+                    }
+                    // 查询符合该日期格式的时间范围
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String startDateString = input + " 00:00:00";
+                    String endDateString = input + " 23:59:59";
+
+                    try {
+                        Date startDate = sdf2.parse(startDateString);
+                        Date endDate = sdf2.parse(endDateString);
+                        System.out.println(startDate);
+                        System.out.println(endDate);
+//                        System.out.println("符合该日期格式的时间范围：");
+//                        System.out.println(sdf2.format(startDate) + " 至 " + sdf2.format(endDate));
+                        List<Sell> sell_info = sellService.getDaySell(startDate, endDate);
+                        for (Sell sell : sell_info) {
+                            //通过获取到的员工号获取员工名
+                            Employee employee = employeeService.getEmployeeNum(sell.getS_e_number());
+                            //通过获取到的货号获取货名
+                            Goods goods = goodsService.getGoodsName(sell.getS_c_number());
+                            //LocalDateTime 去T
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                            String time = sell.getS_time().format(dtf);
+
+                            System.out.println(goods.getC_name() + "\t\t\t"
+                                    + sell.getS_quantity() + "\t\t\t"
+                                    + time + "\t\t\t"
+                                    + employee.getUsername() + "\t\t\t"
+                                    + sell.getS_vip_number());
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("时间范围出现错误。");
+                    }
+
+                    break;
+                case 3:
+                    boolean flag2 = false;
+                    Date date1 = null;
+                    Date date2 = null;
+                    String input1 = null;
+                    String input2 = null;
+                    while (!flag2) {
+                        System.out.print("请输入开始日期（格式为yyyy-MM-dd）：");
+                        input1 = sc.next();
+                        System.out.print("请输入结束日期（格式为yyyy-MM-dd）：");
+                        input2 = sc.next();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        try {
+                            date1 = sdf.parse(input1);
+                            date2 = sdf.parse(input2);
+                            flag2 = true;
+                        } catch (Exception e) {
+                            System.out.println("输入的日期格式不正确，请重新输入。");
+                        }
+                    }
+                    // 查询符合该日期格式的时间范围
+                    SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String startDateString1 = input1 + " 00:00:00";
+                    String endDateString1 = input2 + " 23:59:59";
+
+                    try {
+                        Date startDate = sdf3.parse(startDateString1);
+                        Date endDate = sdf3.parse(endDateString1);
+                        System.out.println(startDate);
+                        System.out.println(endDate);
+//                        System.out.println("符合该日期格式的时间范围：");
+//                        System.out.println(sdf2.format(startDate) + " 至 " + sdf2.format(endDate));
+                        List<Sell> sell_info = sellService.getDaySell(startDate, endDate);
+                        for (Sell sell : sell_info) {
+                            //通过获取到的员工号获取员工名
+                            Employee employee = employeeService.getEmployeeNum(sell.getS_e_number());
+                            //通过获取到的货号获取货名
+                            Goods goods = goodsService.getGoodsName(sell.getS_c_number());
+                            //LocalDateTime 去T
+//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                            String time = sell.getS_time().format(dtf);
+
+                            System.out.println(goods.getC_name() + "\t\t\t"
+                                    + sell.getS_quantity() + "\t\t\t"
+                                    + time + "\t\t\t"
+                                    + employee.getUsername() + "\t\t\t"
+                                    + sell.getS_vip_number());
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("时间范围出现错误。");
+                    }
+
+                    break;
+                case 0:
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("您的输入有误,请重新输入!");
+                    break;
+            }
+        }
+    }
+
+    public static void cashierFunc_sell(Employee employee_info) {
+        //接口
+        VipService vipService = new VipServiceImpl();
+        GoodsService goodsService = new GoodsServiceImpl();
+        SellService sellService = new SellServiceImpl();
+        SellGoodsService sellGoodsService = new SellGoodsServiceImpl();
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        //所需容器
+        Vip vip = null;
+        String vip_num = null;
+        List<Goods> goods_info = new ArrayList<>();
+        List<Integer> goods_in = new ArrayList<>();
+        int num = 0;
+        //是否为vip标志
+        boolean vip_flag = false;
+
+        //获取商品信息及是否为会员循环
+        boolean flag = true;
+        while (flag) {
+            System.out.println("正在获取商品列表......");
+            goodsService.getGoodsAll();
+            System.out.println("是否使用会员卡(Y/N)");
+            String i = sc.next();
+            String sw = null;
+            if (i.equals("y") || i.equals("Y")) {
+                sw = "1";
+            }
+            if (i.equals("n") || i.equals("N")) {
+                sw = "2";
+            }
+            if (sw != null) {
+                boolean w = true;
+                while (w) {
+                    switch (sw) {
+                        case "1":
+                            System.out.println("请输入卡号：");
+                            vip_num = sc.next();
+                            vip = vipService.getVipNum(vip_num);
+                            if (vip != null) {
+                                vip_flag = true;
+                                w = false;
+                            } else {
+                                System.out.println("输入错误，请重新输入！");
+                                break;
+                            }
+                            break;
+                        case "2":
+                            System.out.println("不使用VIP卡进行购物！");
+                            w = false;
+                            break;
+                    }
+                }
+                //循环结束标志
+                if (!w) {
+                    flag = false;
+                }
+            }
+        }
+        //购买循环
+        boolean buy_flag = true;
+        while (buy_flag) {
+            try {
+                Goods goods = null;
+                boolean buy_flag1 = true;
+                while (buy_flag1) {
+                    System.out.println("请输入商品编号:");
+                    num = sc.nextInt();
+                    goods = goodsService.getGoodsName(num);
+                    if (goods == null) {
+                        System.out.println("商品编号输入错误！");
+                        break;
+                    } else {
+                        goods_info.add(goods);
+                    }
+                    int n = 0;
+                    while (n == 0) {
+                        System.out.println("请输入购买数量");
+                        int buy_num = sc.nextInt();
+                        if (buy_num >= goods.getInventory()) {
+                            System.out.println("超出库存！当前库存:" + goods.getInventory() + " 请重新输入：");
+                            n = 0;
+                        } else {
+                            goods_in.add(buy_num);
+                            n = 1;
+                        }
+                    }
+                    System.out.println("1.继续购物\t2.结账");
+                    int end = sc.nextInt();
+                    if (end == 2) {
+                        buy_flag1 = false;
+                    }
+                }
+                System.out.println("结账位置");
+                //内层循环结束标志
+                if (buy_flag1 == false) {
+                    //外层循环结束标志
+                    buy_flag = false;
+                }
+            } catch (Exception e) {
+                System.out.println("输入错误，请重新选择");
+            }
+        }
+        //
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sell_time = null;
+        try {
+            sell_time = sdf.parse(sdf.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //账单打印
+        System.out.println("\t\t\t\t\t\t账单");
+        System.out.println("打印时间:"+sdf.format(date)+"\t收银员:"+employee_info.getUsername());
+        System.out.println("商品号\t\t\t商品名\t\t\t购买数量\t\t\t购买价格");
+        List<Double> bill_list = new ArrayList<>();
+        Double bill_total_price = new Double("0");
+        for (int i = 0; i < goods_info.size(); i++) {
+            Double bill_price = null;
+            if(vip_flag == true){
+//                bill_price = BigDecimal.valueOf(goods_info.get(i).getVip_price())
+//                        .multiply(new BigDecimal(goods_in.get(i)))
+//                        .doubleValue();
+//                System.out.println("bill_price"+bill_price);
+                bill_price = (goods_info.get(i).getVip_price())*goods_in.get(i);
+                System.out.println("bill_Vip_price:"+bill_price);
+            }else{
+                bill_price = (goods_info.get(i).getC_price())*goods_in.get(i);
+                System.out.println("bill_price:"+bill_price);
+
+            }
+        }
+    }
 }
+
+
+

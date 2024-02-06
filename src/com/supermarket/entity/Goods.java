@@ -1,11 +1,20 @@
 package com.supermarket.entity;
 
+import java.util.Date;
+
 public class Goods {
     private String c_number;
     private String c_name;
     private double c_price;
     private double vip_price;
     private int inventory;//库存
+    //下列是销售信息表的字段
+    private int s_c_number;
+    private int s_quantity;
+    private Date s_time;
+    private String s_e_number;
+    private String s_vip_number;
+
 
     @Override
     public String toString() {

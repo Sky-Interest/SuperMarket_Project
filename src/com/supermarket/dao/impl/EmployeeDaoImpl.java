@@ -140,6 +140,26 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return employee;
 
     }
+//    @Override
+//    public Employee getEmployeeName(String employee_num) {
+//        //查询
+//        String sql ="SELECT*FROM employee WHERE number=?";
+//
+//        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+//        //封装
+//        ResultSetHandler<Employee> rsh = new BeanHandler<>(Employee.class);
+//        Employee employee = null;
+//        try {
+//            employee = qr.query(sql,rsh,employee_num);
+//
+//        } catch (SQLException e) {
+//            System.out.println("查询失败！");
+//        }catch (NullPointerException e){
+//            System.out.println("不存在此员工!");
+//        }
+//        return employee;
+//
+//    }
 
 
 

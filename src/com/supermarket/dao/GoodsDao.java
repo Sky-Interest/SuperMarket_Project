@@ -10,5 +10,7 @@ public interface GoodsDao {
     void removeGoods(int goods_num);
     Goods checkInventoryFromGoodsNum(int goods_num ,int inventory);
 
+    Goods getGoodsName(int c_number);
+
     List<Goods> getGoodsAll();
 }

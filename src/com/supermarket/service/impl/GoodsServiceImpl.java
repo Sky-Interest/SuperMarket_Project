@@ -28,6 +28,10 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods checkInventoryFromGoodsNum(int goods_num ,int inventory) {
         return dao.checkInventoryFromGoodsNum(goods_num,inventory);
     }
+    @Override
+    public Goods getGoodsName(int c_number){
+        return dao.getGoodsName(c_number);
+    }
 
     @Override
     public List<Goods> getGoodsAll() {
