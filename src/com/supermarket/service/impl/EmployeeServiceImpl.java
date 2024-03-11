@@ -1,9 +1,7 @@
 package com.supermarket.service.impl;
 
-import com.supermarket.dao.ClockDao;
 import com.supermarket.dao.EmployeeDao;
 import com.supermarket.dao.impl.EmployeeDaoImpl;
-import com.supermarket.entity.Clock;
 import com.supermarket.entity.Employee;
 import com.supermarket.service.EmployeeService;
 
@@ -34,6 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getEmployeeNum(String employee_num) {
         return dao.getEmployeeNum(employee_num);
+    }
+    @Override
+    public Employee getEmployeeSellNum(String employee_num) {
+        return dao.getEmployeeSellNum(employee_num);
     }
 
 

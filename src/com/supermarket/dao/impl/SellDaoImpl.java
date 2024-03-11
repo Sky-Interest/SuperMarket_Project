@@ -52,6 +52,8 @@ public class SellDaoImpl implements SellDao {
         } catch (SQLException e) {
             e.printStackTrace();
 //            System.out.println("数据获取失败！");
+        } catch (NullPointerException e ){
+            System.out.println("销售信息为空!");
         }
         return sells;
     }

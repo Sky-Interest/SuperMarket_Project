@@ -114,7 +114,11 @@ public class VipDaoImpl implements VipDao {
         }
 //        return employees;
         return vips.stream()
-                .peek(vip -> System.out.println(vip)) // 在遍历过程中打印员工信息
+                .peek(vip -> System.out.println("VIP编号:"+vip.getV_number()+
+                        "\tVIP名称:"+ vip.getV_name()+
+                        "\tVIP积分:"+ vip.getV_score()+
+                        "\tVIP手机号:"+ vip.getV_phone()+
+                        "\tVIP注册日期:"+ vip.getV_date())) // 在遍历过程中打印员工信息
                 .collect(Collectors.toList()); // 收集并返回修改后的集合
     }
 

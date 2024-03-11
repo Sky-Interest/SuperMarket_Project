@@ -14,10 +14,30 @@ import java.util.List;
 public class GoodsDaoImpl implements GoodsDao {
     @Override
     public void addGoods(Goods goods) {
-        String sql = "INSERT INTO goods(c_number,c_name,c_price,vip_price,inventory)values(?,?,?,?,?)";
+//        String sql = "INSERT INTO goods(c_number,c_name,c_price,vip_price,inventory)values(?,?,?,?,?)";
+//
+//        JDBCUtil.update(sql,goods.getC_number(),goods.getC_name(),goods.getC_price(),goods.getVip_price(),goods.getInventory());
+        String sql = "UPDATE goods SET inventory= ? WHERE c_number =?";
+        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+        try {
+            qr.update(sql, goods.getInventory(), goods.getC_number());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
-        JDBCUtil.update(sql,goods.getC_number(),goods.getC_name(),goods.getC_price(),goods.getVip_price(),goods.getInventory());
-
+    }
+    @Override
+    public List<Goods> getLowGoods(int inventory) {
+        String sql ="SELECT * FROM goods where inventory <=?";
+        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+        ResultSetHandler <List<Goods>> rsh = new BeanListHandler<>(Goods.class);
+        List <Goods> goods = null;
+        try {
+            goods = qr.query(sql,rsh,inventory);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return goods;
     }
 
     @Override
@@ -34,27 +54,8 @@ public class GoodsDaoImpl implements GoodsDao {
 
         JDBCUtil.update(sql,goods_num);
     }
-    //或许是采购员功能
     @Override
     public Goods checkInventoryFromGoodsNum(int goods_num ,int inventory) {
-//        String sql = "select * from goods where c_number=?";
-//        ResultSet rs = null;
-
-//        try {
-//            rs = JDBCUtil.query(sql,goods_num);
-//            while (rs.next()){
-//                goods = new Goods(rs.getString("c_number"),//所需Int
-//                        rs.getString("c_name"),
-//                        rs.getDouble("c_price"),
-//                        rs.getDouble("vip_price"),
-//                        rs.getInt("inventory"));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            JDBCUtil.closeConn(JDBCUtil.conn,JDBCUtil.pst,rs);
-//        }
-//        return goods;
         QueryRunner qr = new QueryRunner();
         String sql = "SELECT c_number, c_name, c_price, vip_price, inventory FROM goods WHERE c_number = ?";
 //        Map<String, Object> row = qr.query(sql, new MapListHandler(), goodsNumber);

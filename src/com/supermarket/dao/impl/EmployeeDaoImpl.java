@@ -1,7 +1,6 @@
 package com.supermarket.dao.impl;
 
 import com.supermarket.dao.EmployeeDao;
-import com.supermarket.entity.Clock;
 import com.supermarket.entity.Employee;
 import com.supermarket.util.JDBCUtil;
 import org.apache.commons.dbutils.QueryRunner;
@@ -10,7 +9,6 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +21,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         //创建runner对象
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         try {
-            qr.update(sql,employee.getNumber(),employee.getUsername(),employee.getPassword(),employee.getSex(),employee.getPhone(), employee.getRole(),employee.getRemark());
+            qr.update(sql,employee.getNumber(),employee.getUsername(),employee.getPassword(),employee.getSex(),employee.getPhone(), employee.getRole(),1);
             System.out.println("插入成功...");
         } catch (SQLException e) {
             System.out.println("插入失败...");
@@ -75,7 +73,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 //        String sql = "delete from employee where number=?";
 //
 //        JDBCUtil.update(sql, employee_num);
-        String sql = "delete from employee where number=?";
+//        String sql = "delete from employee where number=?";
+        String sql = "update employee set remark =0 where number=?";
         //创建runner对象
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         try {
@@ -123,6 +122,27 @@ public class EmployeeDaoImpl implements EmployeeDao {
 @Override
     public Employee getEmployeeNum(String employee_num) {
         //查询
+        String sql ="SELECT*FROM employee WHERE number=? and remark =1";
+
+        QueryRunner qr = new QueryRunner(JDBCUtil.ds);
+        //封装
+        ResultSetHandler<Employee> rsh = new BeanHandler<>(Employee.class);
+        Employee employee = null;
+        try {
+            employee = qr.query(sql,rsh,employee_num);
+
+        } catch (SQLException e) {
+            System.out.println("查询失败！");
+        }catch (NullPointerException e){
+            System.out.println("不存在此员工!");
+            employee.setUsername("空");
+        }
+        return employee;
+
+    }
+    @Override
+    public Employee getEmployeeSellNum(String employee_num) {
+        //查询
         String sql ="SELECT*FROM employee WHERE number=?";
 
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
@@ -136,6 +156,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             System.out.println("查询失败！");
         }catch (NullPointerException e){
             System.out.println("不存在此员工!");
+            employee.setUsername("空");
         }
         return employee;
 
@@ -166,7 +187,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     //查询账号和密码
     @Override
     public Employee getEmployeeNumNamePsw(String employee_num, String employee_password) {
-        String sql ="SELECT*FROM employee WHERE number=? and password=? ";
+        String sql ="SELECT*FROM employee WHERE number=? and password=? and remark =1";
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         ResultSetHandler<Employee> rsh = new BeanHandler<>(Employee.class);
         Employee employees = null;
@@ -182,7 +203,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public List<Employee> getEmployeesAll() {
 
-        String sql = "select * from employee";
+        String sql = "select * from employee where remark =1";
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         ResultSetHandler<List<Employee>> rh = new BeanListHandler<>(Employee.class);
         List<Employee> employees = null;
@@ -197,7 +218,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
 //        return employees;
         return employees.stream()
-                .peek(employee -> System.out.println(employee)) // 在遍历过程中打印员工信息
+                .peek(employee -> System.out.println("员工号:"+employee.getNumber()+
+                        "\t员工名:"+ employee.getUsername()+
+                        "\t员工密码:"+ employee.getPassword()+
+                        "\t员工性别:"+ employee.getSex()+
+                        "\t员工手机:"+ employee.getPhone()+
+                        "\t员工职位:"+employee.getRole()+
+                        "\t员工就职状态:"+ employee.getRemark())) // 在遍历过程中打印员工信息
                 .collect(Collectors.toList()); // 收集并返回修改后的集合
     }
 //    @Override

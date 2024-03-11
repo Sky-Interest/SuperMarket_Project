@@ -9,6 +9,7 @@ public interface GoodsService {
     void updateGoods(Goods goods);
     void removeGoods(int goods_num);
     Goods checkInventoryFromGoodsNum(int goods_num, int inventory);
+    List<Goods> getLowGoods(int inventory);
 
     Goods getGoodsName(int c_number);
 

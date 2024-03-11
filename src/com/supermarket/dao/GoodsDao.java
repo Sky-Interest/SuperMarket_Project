@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface GoodsDao {
     void addGoods(Goods goods);
+
+    List<Goods> getLowGoods(int inventory);
+
     void updateGoods(Goods goods);
     void removeGoods(int goods_num);
     Goods checkInventoryFromGoodsNum(int goods_num ,int inventory);

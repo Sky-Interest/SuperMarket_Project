@@ -19,6 +19,8 @@ public interface EmployeeService {
     Employee getEmployeeNum(String employee_num);
 
 
+    Employee getEmployeeSellNum(String employee_num);
+
     List<Employee> getEmployeesAll();
 
 

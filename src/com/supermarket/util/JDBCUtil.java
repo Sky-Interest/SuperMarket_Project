@@ -33,7 +33,7 @@ public class JDBCUtil {
             //从读取的文件里面获取的值赋值给
             ds = new BasicDataSourceFactory().createDataSource(p);
 
-            System.out.println("url:" + url+",username:"+username+",password:"+ password);
+//            System.out.println("url:" + url+",username:"+username+",password:"+ password);
         }catch (Exception e){
             e.printStackTrace();
         }

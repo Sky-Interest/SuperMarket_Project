@@ -3,7 +3,7 @@ package com.supermarket.entity;
 import java.util.Date;
 
 public class Goods {
-    private String c_number;
+    private int c_number;
     private String c_name;
     private double c_price;
     private double vip_price;
@@ -27,11 +27,11 @@ public class Goods {
                 '}';
     }
 
-    public String getC_number() {
+    public int getC_number() {
         return c_number;
     }
 
-    public void setC_number(String c_number) {
+    public void setC_number(int c_number) {
         this.c_number = c_number;
     }
 
@@ -67,7 +67,7 @@ public class Goods {
         this.inventory = inventory;
     }
 
-    public Goods(String c_number, String c_name, double c_price, double vip_price, int inventory) {
+    public Goods(int c_number, String c_name, double c_price, double vip_price, int inventory) {
         this.c_number = c_number;
         this.c_name = c_name;
         this.c_price = c_price;
