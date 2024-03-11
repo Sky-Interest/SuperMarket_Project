@@ -900,15 +900,15 @@ public class UI {
             goodsService.getGoodsAll();
             System.out.println("是否使用会员卡(Y/N)");
             String i = sc.next();
-            String sw = null;
+            String sw = null;//会员卡判断标志
             if (i.equals("y") || i.equals("Y")) {
-                sw = "1";
+                sw = "1";//使用会员卡
             }
             if (i.equals("n") || i.equals("N")) {
                 sw = "2";
             }
             if (sw != null) {
-                boolean w = true;
+                boolean w = true;//循环标志
                 while (w) {
                     switch (sw) {
                         case "1":

@@ -17,11 +17,11 @@ public class VipDaoImpl implements VipDao {
 
     public void addVip(Vip vip) {
 
-        String sql = "INSERT INTO vip(v_number,v_name,v_phone,v_date)values(?,?,?,?)";
+        String sql = "INSERT INTO vip(v_number,v_name,v_phone,v_date,v_score)values(?,?,?,?,0)";
         //创建runner对象
         QueryRunner qr = new QueryRunner(JDBCUtil.ds);
         try {
-            qr.update(sql,vip.getV_number(),vip.getV_name(),vip.getV_phone(),vip.getV_date());
+            qr.update(sql,vip.getV_number(),vip.getV_name(),vip.getV_phone(),vip.getV_date(),vip.getV_score());
             System.out.println("插入成功...");
         } catch (SQLException e) {
             System.out.println("插入失败...");
